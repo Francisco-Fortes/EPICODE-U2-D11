@@ -1,34 +1,26 @@
-let container = document.querySelector(".container");
-let cardImageHolder = document.querySelector(".card-img-top");
-const options = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": "f47133a4famsh3a17d8e9eb43d0cp1807d9jsn1a7bb1b3544c",
-    "X-RapidAPI-Host": "deezerdevs-deezer.p.rapidapi.com",
-  },
-};
+let cardContainer = document.querySelector(".row");
 
-fetch(
-  "https://striveschool-api.herokuapp.com/api/deezer/search?q=metallica",
-  options
-)
+fetch("https://striveschool-api.herokuapp.com/api/deezer/search?q=metallica") // ,options is no need it on this API
   .then((response) => response.json())
-  .then((listOfSongs) => {
-    for (song of listOfSongs.data) {
-      console.log(song);
-    }
-  })
-  .catch((err) => console.error(err));
+  .then((response) => {
+    console.log(response.data);
+    let musicInfo = response.data;
+    console.log(musicInfo);
+    for (let i = 0; i < musicInfo.length; i++) {
+      let allInfo = musicInfo[i];
+      console.log(allInfo);
+      let card = document.createElement("div");
+      card.className = "col-sm-6 col-md-4 col-3 p-sm-2 p-md-2";
+      card.innerHTML = `<div class="card" style="width: 18rem;">
+      <img class="card-img-top" src=${allInfo.album.cover} alt="${allInfo.album.title} cover">
+      <div class="card-body">
+        <h5 class="card-title">${allInfo.title}</h5>
+        <p class="card-text">${allInfo.album.title}</p>
+      </div>
+    </div>`;
 
-//
-fetch(
-  "https://striveschool-api.herokuapp.com/api/deezer/search?q=daft_punk",
-  options
-)
-  .then((response) => response.json())
-  .then((listOfSongs) => {
-    for (song of listOfSongs.data) {
-      console.log(song);
+      cardContainer.appendChild(card);
+      console.log(musicInfo[i].music);
     }
   })
   .catch((err) => console.error(err));
